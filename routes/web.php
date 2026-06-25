@@ -1,15 +1,18 @@
 <?php
 
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\PrintController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-Route::get('/', function () {
-    return Inertia::render('Welcome');
-})->name('home');
+Route::get('/', [PrintController::class, 'index'])->name('hnd');
+Route::post('/print', [PrintController::class, 'print'])->name('print');
+Route::post('/settings', [PrintController::class, 'saveSettings'])->name('settings');
 
-Route::get('dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/admin', [AdminController::class, 'index'])->name('admin');
+Route::post('/admin/verify', [AdminController::class, 'verify'])->name('admin.verify');
+Route::post('/admin/store', [AdminController::class, 'store'])->name('admin.store');
+Route::delete('/admin/{id}', [AdminController::class, 'destroy'])->name('admin.destroy');
 
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';
