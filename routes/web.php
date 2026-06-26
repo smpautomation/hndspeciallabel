@@ -14,5 +14,3 @@ Route::post('/admin/verify', [AdminController::class, 'verify'])->name('admin.ve
 Route::post('/admin/store', [AdminController::class, 'store'])->name('admin.store');
 Route::delete('/admin/{id}', [AdminController::class, 'destroy'])->name('admin.destroy');
 
-require __DIR__.'/settings.php';
-require __DIR__.'/auth.php';
