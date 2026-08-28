@@ -117,7 +117,7 @@ class PrintController extends Controller
         $Model = $data['model_name'];
         $Fixed_Value = $data['fixed_value'];
         $Quantity = $data['quantity'];
-        $LotNo = $data['lot'];
+        $LotNo = str_replace("-", "", $data['lot']);
 
         $xData1 = str_pad(substr($Fixed_Value, 0, 3), 20, " ", STR_PAD_RIGHT);
         $xData2 = str_pad(substr($Fixed_Value, 3, 1), 22, " ", STR_PAD_RIGHT);

@@ -3,7 +3,6 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\PrintController;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
 Route::get('/', [PrintController::class, 'index'])->name('hnd');
 Route::post('/print', [PrintController::class, 'print'])->name('print');
