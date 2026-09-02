@@ -19,6 +19,7 @@ return new class extends Migration
             $table->smallInteger('horizontal_offset');
             $table->smallInteger('vertical_offset');
             $table->text('remarks');
+            $table->boolean('role');
         });
     }
 

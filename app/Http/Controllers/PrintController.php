@@ -56,10 +56,14 @@ class PrintController extends Controller
 
         $formattedDate = Carbon::parse($validated['shipping_date'])->format('ymd');
 
-
         if($validated['is_custom']){
             $formattedPrintQuantity = str_pad($validated['print_quantity'], 4, 0, STR_PAD_LEFT);
             $lot = $formattedDate . '-' . $formattedPrintQuantity;
+
+            if($this->Duplicate($validated, $lot) && Settings::where('ip_address', $this->ip_address)->where('role', 0)->exists()){
+                Log::error('Duplicate Printing');
+                return to_route('hnd')->with('error', 'Duplicate Printing');
+            }
 
             $this->sendToPrinter([
                 'sato_ip' => $this->print_settings->SATO_ip_address,
@@ -86,6 +90,11 @@ class PrintController extends Controller
         for($i=1;$i<=$validated['print_quantity'];$i++){
             $formattedPrintQuantity = str_pad($i, 4, 0, STR_PAD_LEFT);
             $lot = $formattedDate . '-' . $formattedPrintQuantity;
+
+            if($this->Duplicate($validated, $lot) && Settings::where('ip_address', $this->ip_address)->where('role', 0)->exists()){
+                Log::error('Duplicate Printing');
+                return to_route('hnd')->with('error', 'Duplicate Printing');
+            }
 
             $this->sendToPrinter([
                 'sato_ip' => $this->print_settings->SATO_ip_address,
@@ -117,6 +126,7 @@ class PrintController extends Controller
         $Model = $data['model_name'];
         $Fixed_Value = $data['fixed_value'];
         $Quantity = $data['quantity'];
+        //$LotNo = $data['lot'];
         $LotNo = str_replace("-", "", $data['lot']);
 
         $xData1 = str_pad(substr($Fixed_Value, 0, 3), 20, " ", STR_PAD_RIGHT);
@@ -182,5 +192,17 @@ class PrintController extends Controller
         );
 
         return to_route('hnd')->with('success', 'Printer settings saved successfully.');
+    }
+
+    private function Duplicate(array $validated, string $lot):bool{
+        $duplicate = Datalist::where('model', $validated['model_name'])
+                            ->where('lot', $lot)
+                            ->where('quantity', $validated['quantity'])
+                            ->exists();
+        if(!$duplicate){
+            return false;
+        }
+
+        return true;
     }
 }

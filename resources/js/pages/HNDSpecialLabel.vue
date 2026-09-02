@@ -513,7 +513,7 @@
           is_custom:      form.value.is_custom        // ← sent to controller
         }, {
           onSuccess: () => {
-            flashSuccess.value = 'Label sent to printer successfully!'
+            flashSuccess.value = 'Label Sent to Printer!'
             form.value = {
               model_name: '', fixed_values: '', shipping_date: '',
               quantity: null, print_quantity: 1, is_custom: false
