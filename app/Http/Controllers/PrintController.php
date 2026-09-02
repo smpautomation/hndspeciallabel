@@ -62,7 +62,7 @@ class PrintController extends Controller
 
             if($this->Duplicate($validated, $lot) && Settings::where('ip_address', $this->ip_address)->where('role', 0)->exists()){
                 Log::error('Duplicate Printing');
-                return to_route('hnd')->with('error', 'Duplicate Printing');
+                return to_route('hnd')->with('error', 'Duplicate Printing: ' . $lot . " Stopping Printing.");
             }
 
             $this->sendToPrinter([
@@ -93,7 +93,7 @@ class PrintController extends Controller
 
             if($this->Duplicate($validated, $lot) && Settings::where('ip_address', $this->ip_address)->where('role', 0)->exists()){
                 Log::error('Duplicate Printing');
-                return to_route('hnd')->with('error', 'Duplicate Printing');
+                return to_route('hnd')->with('error', 'Duplicate Printing: ' . $lot . ". Stopping Printing.");
             }
 
             $this->sendToPrinter([
